@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -26,6 +27,10 @@ public final class AnarchyVanish extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        if(!Files.exists(path)){
+            saveVanished();
+        }
+
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new Expansion(this).register();
         }
@@ -47,7 +52,8 @@ public final class AnarchyVanish extends JavaPlugin {
             }
         }
 
-        getServer().getPluginManager().callEvent(new VanishEvent(this, player));
+        VanishEvent event = new VanishEvent(this, player);
+        getServer().getPluginManager().callEvent(event);
 
         vanished.put(player.getUniqueId(), true);
 
@@ -61,7 +67,8 @@ public final class AnarchyVanish extends JavaPlugin {
             }
         }
 
-        getServer().getPluginManager().callEvent(new UnVanishEvent(this, player));
+        UnVanishEvent event = new UnVanishEvent(this, player);
+        getServer().getPluginManager().callEvent(event);
 
         vanished.put(player.getUniqueId(), false);
 
@@ -75,25 +82,17 @@ public final class AnarchyVanish extends JavaPlugin {
     public void saveVanished() {
         try {
             String json = gson.toJson(vanished);
-
             Files.write(path, json.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException ignored) { }
     }
 
     public void loadVanished() {
         try {
             vanished.clear();
-
             Reader reader = Files.newBufferedReader(path);
-
             Type type = new TypeToken<HashMap<UUID, Boolean>>(){}.getType();
-
             vanished = gson.fromJson(reader, type);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException ignored) { }
     }
 
     public int getPlayerCount() {
