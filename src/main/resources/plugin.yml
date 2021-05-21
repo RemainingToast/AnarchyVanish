@@ -1,0 +1,8 @@
+name: AnarchyVanish
+version: ${project.version}
+main: com.au2b2t.anarchyvanish.AnarchyVanish
+authors: [ RemainingToast ]
+website: www.2b2t.com.au
+commands:
+  vanish:
+    description: Vanish yourself.
