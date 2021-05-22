@@ -24,12 +24,8 @@ public class UnVanishEvent extends Event {
         return player;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+    public static HandlerList getHandlerList() { return handlers; }
 
     @Override
-    public HandlerList getHandlers() {
-        return null;
-    }
+    public HandlerList getHandlers() { return handlers; }
 }

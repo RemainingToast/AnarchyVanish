@@ -53,7 +53,7 @@ public final class AnarchyVanish extends JavaPlugin {
         }
 
         VanishEvent event = new VanishEvent(this, player);
-        getServer().getPluginManager().callEvent(event);
+        Bukkit.getPluginManager().callEvent(event);
 
         vanished.put(player.getUniqueId(), true);
 
@@ -68,7 +68,7 @@ public final class AnarchyVanish extends JavaPlugin {
         }
 
         UnVanishEvent event = new UnVanishEvent(this, player);
-        getServer().getPluginManager().callEvent(event);
+        Bukkit.getPluginManager().callEvent(event);
 
         vanished.put(player.getUniqueId(), false);
 
